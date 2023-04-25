@@ -1,0 +1,5 @@
+CREATE TABLE `bienes_raices`.`usuarios` (
+  `id` INT(1) NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(50) NULL,
+  `password` CHAR(60) NULL,
+  PRIMARY KEY (`id`));

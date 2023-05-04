@@ -19,10 +19,14 @@ function estaAutenticado() {
 
 } 
 
-
 function debugear($variable) {
     echo "<pre>";
 var_dump($variable);
 echo "</pre>";
 exit;
+}
+//Escapa /sanitizar el html
+function s($html) : string {
+ $s= htmlspecialchars($html);
+ return $s;
 }

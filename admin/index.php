@@ -3,10 +3,11 @@
 
 estaAutenticado(); 
 use App\Propiedad;
+use App\Vendedor;
 //Implementar un metodo para obtener las propiedades 
-$propiedad = Propiedad::all();
- 
-
+    $propiedades = Propiedad::all();
+    $vendedores = Vendedor::all();
+    
 
     
     //muestra mensaje condicional
@@ -16,18 +17,12 @@ $propiedad = Propiedad::all();
         $id = $_POST ['id'];
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if($id){
-            //ELIMINAR EL ARCHIVO
-            $query = "SELECT imagen FROM propiedades WHERE id = ${id}";
-            $resultado = mysqli_query($db, $query);
-            $propiedad = mysqli_fetch_assoc($resultado);
 
-            unlink('../imagenes' . $propiedad['imagen']);
-            //Eliminar propiedad
-            $query = "DELETE FROM propiedades WHERE id = ${id}"; 
-            $resultado = mysqli_query($db, $query);
-            if($resultado){
-                header('location: /admin?resultado=3');
-            }
+            $propiedad = Propiedad::find($id);
+           
+            $propiedad->eliminar();
+            
+            
         }
     }
 
@@ -44,7 +39,7 @@ $propiedad = Propiedad::all();
             <p class="alerta exito">Anuncio Actualizado Correctamente</p>
         
         <?php elseif( intval( $resultado ) === 3): ?>
-            <p class="alerta exito">Anuncio Eliminmado Correctamente</p>
+            <p class="alerta exito">Anuncio Eliminado Correctamente</p>
         <?php endif; ?>
 
         <a href="/admin/propiedades/crear.php" class="boton boton-verde">Nueva Propiedad</a>
@@ -62,38 +57,34 @@ $propiedad = Propiedad::all();
             </thead>
 
             <tbody> <!--muestra los resultados-->
-            <?php while ($propiedad = mysqli_fetch_assoc($resultadoConsulta)): ?>
+            <?php foreach( $propiedades as $propiedad ): ?>
                 <tr>
 
-                    <td><?php echo $propiedad['id']; ?> </td>
-                    <td><?php echo $propiedad['titulo']; ?></td>
-                    <td> <img src="/imagenes/<?php echo $propiedad['imagen']; ?>" class="imagen-tabla"></td>
-                    <td> $<?php echo $propiedad['precio']; ?></td>
+                    <td><?php echo $propiedad->id; ?></td>
+                    <td><?php echo $propiedad->titulo; ?></td>
+                    <td> <img src="/imagenes/<?php echo $propiedad->imagen; ?>" class="imagen-tabla"></td>
+                    <td> $<?php echo $propiedad->precio; ?></td>
                     <td>
                         <form method="POST" class="w-100"> 
 
-                            <input type="hidden" name="id" value="<?php echo $propiedad['id']; ?>" >
+                            <input type="hidden" name="id" value="<?php echo $propiedad->id; ?>" >
                         <input type="submit" class="boton-rojo-block" value="Eliminar">
                         </form>
                       
-                        <a href="admin/propiedades/actualizar.php?id=<?php echo $propiedad['id']; ?> " class="boton-amarillo-block">Actualizar</a>
+                        <a href="admin/propiedades/actualizar.php?id=<?php echo $propiedad->id; ?> " class="boton-amarillo-block">Actualizar</a>
                     </td>
 
                 </tr>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
 
                      </tbody>
 
             </table>
     </main>
-
-    
+  
     <?php   
-
     //cerrar la conexion
-
     mysqli_close($db);
-
 
    incluirTemplate('footer');
     

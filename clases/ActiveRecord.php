@@ -67,8 +67,8 @@ public function actualizar() {
 }
 //eliminar un registro
 public function eliminar() {
-    $query = " DELETE FROM " . static::$tabla .  " WHERE id = " . self::$db->escape_string($this->id) . "
-    LIMIT 1";
+    $query = "DELETE FROM " . static::$tabla .  " WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
+   
     $resultado = self::$db->query($query);
    
     if($resultado) {
@@ -128,7 +128,7 @@ public function validar() {
    
 }
 //Lista todas los registros
-public static function all() {
+    public static function all() {
  $query = " SELECT * FROM " . static::$tabla;
  
 
@@ -136,6 +136,16 @@ public static function all() {
  
    return $resultado;
 }
+
+
+public static function get($cantidad) {
+    $query = " SELECT * FROM " . static::$tabla . " LIMIT " . $cantidad;
+    
+   
+      $resultado = self::consultarSQL($query); 
+    
+      return $resultado;
+   }
 
 //buscar un registro por su id
     public static function find($id) {
@@ -170,11 +180,20 @@ protected static function crearObjeto ($registro) {
 }
 
     //sincroniza el objeto en memoria, con los cambios realizados por el usuario
-    public function sincronizar( $args = []  ) {
-      foreach($args as $key =>$value ){
-        if(property_exists($this, $key) && !is_null($value)) {
-            $this->key = $value;
+    public function sincronizar($args = [])
+    {
+        foreach ($args as $key => $value) {
+            if (property_exists($this, $key) && !is_null($value)) {
+                $this->{$key} = $value;
+            }
         }
-      }
     }
+
+
+
+
+
+
+  
+    
 }

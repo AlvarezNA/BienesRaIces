@@ -8,7 +8,7 @@ const concat = require('gulp-concat');
 const terser = require('gulp-terser-js');
 const rename = require('gulp-rename');
 const imagemin = require('gulp-imagemin');
-
+const notify = require('gulp-notify');
 const cache = require('gulp-cache');
 
 const paths = {
@@ -41,10 +41,10 @@ function javascript() {
 
 function imagenes() {
     return src(paths.imagenes)
-        .pipe(cache(imagemin({ optimizationLevel: 3})))
-        .pipe(dest('build/img'))
-        .pipe(notify({ message: 'Imagen Completada'}));
-}
+      .pipe(cache(imagemin({ optimizationLevel: 3 })))
+      .pipe(dest('build/img'));
+  }
+  
 
 
 

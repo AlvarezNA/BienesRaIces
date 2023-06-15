@@ -67,15 +67,29 @@ public function actualizar() {
 }
 //eliminar un registro
 public function eliminar() {
-    $query = "DELETE FROM " . static::$tabla .  " WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
-   
-    $resultado = self::$db->query($query);
-   
-    if($resultado) {
-        $this->borrarImagen();
-        header('location: /admin?resultado=3');
+    // Eliminar registros relacionados en la tabla 'propiedades'
+    $query_propiedades = "DELETE FROM propiedades WHERE vendedores_id = " . $this->id;
+    $resultado_propiedades = self::$db->query($query_propiedades);
+
+    // Verificar si se eliminaron correctamente los registros de 'propiedades'
+    if ($resultado_propiedades) {
+        // Proceder a eliminar el vendedor
+        $query_vendedor = "DELETE FROM " . static::$tabla . " WHERE id = " . $this->id . " LIMIT 1";
+        $resultado_vendedor = self::$db->query($query_vendedor);
+
+        if ($resultado_vendedor) {
+            $this->borrarImagen();
+            header('Location: /admin?resultado=3');
+        } else {
+            // Error al eliminar el vendedor
+            // Manejar el error según sea necesario
+        }
+    } else {
+        //Error al eliminar los registros de 'propiedades'
+        // Manejar el error según sea necesario
     }
 }
+
 
 //identificar y unir los atributos de la Bd
 public function atributos() {

@@ -1,9 +1,10 @@
 <?php
  function conectarDB() : mysqli {
-    $url = getenv('RAILWAY_URL');
-    $dbname = getenv('RAILWAY_DATABASE');
-    $username = getenv('RAILWAY_USERNAME');
-    $password = getenv('RAILWAY_PASSWORD');
+    $DB_HOST = getenv('DB_HOST'); 
+    $DB_USER= getenv('DB_USER');
+    $DB_PASSWORD= getenv('DB_PASSWORD');
+    $DB_NAME= getenv('DB_NAME');
+    $DB_PORT = getenv('DB_PORT');
 
     $db = new mysqli($url, $username, $password, $dbname);
     $db->set_charset('utf8');

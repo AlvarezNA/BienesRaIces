@@ -6,7 +6,7 @@
     $DB_NAME= getenv('DB_NAME');
     $DB_PORT = getenv('DB_PORT');
 
-    $db = new mysqli($url, $username, $password, $dbname);
+    $db = new mysqli($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_NAME, $DB_PORT);
     $db->set_charset('utf8');
     
     if ($db->connect_errno) {

@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
    if(empty($errores)) {
 // revisar si el usuario existe o no
-    $query = "SELECT * FROM root.usuarios WHERE email = '${email}' ";
+    $query = "SELECT * FROM railway.usuarios WHERE email = '${email}' ";
     $resultado = mysqli_query($db, $query);
 
 
